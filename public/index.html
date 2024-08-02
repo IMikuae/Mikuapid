@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Display</title>
+  <style>
+    button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Display</h1>
+  <img id="image" src="" alt="Image" width="300">
+  <div>
+    <button onclick="showCategory('anime')">Anime</button>
+    <button onclick="showCategory('game')">Game</button>
+  </div>
+  <script>
+    async function updateImage() {
+      const response = await fetch('/api/image');
+      const data = await response.json();
+      document.getElementById('image').src = data.imageUrl;
+    }
+
+    async function showCategory(category) {
+      try {
+        const response = await fetch(`/api/scrape?category=${category}`);
+        const data = await response.json();
+        console.log('Scraped Data:', data);
+        // Proses data hasil scraping sesuai kebutuhan
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    updateImage();
+  </script>
+</body>
+</html>
